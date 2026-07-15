@@ -18,7 +18,7 @@ function LoadingScreen() {
   )
 }
 
-export default function CarScene({ modelUrl, carColor, finish, ppfEnabled, onLoaded }) {
+export default function CarScene({ modelUrl, carColor, finish, ppfEnabled, windowTint, scale = 1.0, yOffset = 0, cameraPos = [4.5, 1.8, 4.5], onLoaded }) {
   return (
     <div style={{ width: '100%', height: '100%', position: 'relative' }}>
       {/* Hint overlay */}
@@ -38,7 +38,7 @@ export default function CarScene({ modelUrl, carColor, finish, ppfEnabled, onLoa
         gl={{ antialias: true, alpha: false, powerPreference: 'high-performance' }}
         style={{ background: 'transparent' }}
       >
-        <PerspectiveCamera makeDefault position={[4.5, 1.8, 4.5]} fov={40} />
+        <PerspectiveCamera makeDefault position={cameraPos} fov={40} />
 
         {/* Ambient + key lights */}
         <ambientLight intensity={0.3} />
@@ -77,6 +77,9 @@ export default function CarScene({ modelUrl, carColor, finish, ppfEnabled, onLoa
             carColor={carColor}
             finish={finish}
             ppfEnabled={ppfEnabled}
+            windowTint={windowTint}
+            scale={scale}
+            yOffset={yOffset}
             onLoaded={onLoaded}
           />
         </Suspense>

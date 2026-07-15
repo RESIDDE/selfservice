@@ -44,6 +44,20 @@ export const CAR_CATALOG = [
     scale: 18.0,
     yOffset: -0.05,
   },
+  {
+    id: 'landcruiser',
+    name: 'Toyota Land Cruiser',
+    type: 'Luxury SUV',
+    category: 'suv',
+    modelUrl: '/models/truck.glb',
+    description: 'Unmatched off-road capability combined with premium luxury. The ultimate all-terrain vehicle.',
+    specs: { seats: 7, origin: 'Japan', class: 'Full-Size SUV' },
+    image: 'https://images.unsplash.com/photo-1551829142-d9b8e6c4ae27?w=600&q=80&auto=format&fit=crop',
+    accentColor: '#3b82f6',
+    cameraPos: [6, 2.5, 6],
+    scale: 1.0,
+    yOffset: -0.5,
+  },
 ]
 
 

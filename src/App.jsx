@@ -4,6 +4,7 @@ import CarScene from './components/CarScene.jsx'
 import CarSelector from './components/CarSelector.jsx'
 import ColorPicker from './components/ColorPicker.jsx'
 import FinishSelector from './components/FinishSelector.jsx'
+import TintSelector from './components/TintSelector.jsx'
 import PPFToggle from './components/PPFToggle.jsx'
 import BookingCTA from './components/BookingCTA.jsx'
 import LandingPage from './components/LandingPage.jsx'
@@ -18,6 +19,7 @@ export default function App() {
   const [carColor, setCarColor] = useState(DEFAULT_COLOR)
   const [finish, setFinish] = useState(DEFAULT_FINISH)
   const [ppfEnabled, setPpfEnabled] = useState(false)
+  const [windowTint, setWindowTint] = useState(0.1) // 0.1 = clear
   const [isLoaded, setIsLoaded] = useState(false)
 
   const handleNavigate = useCallback((dest) => {
@@ -31,6 +33,7 @@ export default function App() {
     setCarColor(DEFAULT_COLOR)
     setFinish(DEFAULT_FINISH)
     setPpfEnabled(false)
+    setWindowTint(0.1)
     setView('configurator')
   }, [])
 
@@ -43,6 +46,7 @@ export default function App() {
   const handleColorChange = useCallback((colorObj) => { setCarColor(colorObj) }, [])
   const handleFinishChange = useCallback((f) => { setFinish(f) }, [])
   const handlePPFToggle = useCallback((val) => { setPpfEnabled(val) }, [])
+  const handleTintChange = useCallback((val) => { setWindowTint(val) }, [])
 
   // ── Landing Screen ───────────────────────────────────────
   if (view === 'landing') {
@@ -67,6 +71,10 @@ export default function App() {
             carColor={carColor.hex}
             finish={finish}
             ppfEnabled={ppfEnabled}
+            windowTint={windowTint}
+            scale={selectedCar.scale}
+            yOffset={selectedCar.yOffset}
+            cameraPos={selectedCar.cameraPos}
             onLoaded={() => setIsLoaded(true)}
           />
         </div>
@@ -113,8 +121,17 @@ export default function App() {
             />
           </div>
 
-          {/* PPF Toggle */}
+          {/* Tint Selector */}
           <div className="panel-section animate-in" style={{ animationDelay: '0.3s' }}>
+            <p className="section-label">Window Tint</p>
+            <TintSelector
+              selectedValue={windowTint}
+              onChange={handleTintChange}
+            />
+          </div>
+
+          {/* PPF Toggle */}
+          <div className="panel-section animate-in" style={{ animationDelay: '0.4s' }}>
             <p className="section-label">Protection Film (PPF)</p>
             <PPFToggle
               enabled={ppfEnabled}
@@ -142,6 +159,14 @@ export default function App() {
               <div className="summary-row">
                 <span className="summary-key">Finish</span>
                 <span className="summary-val" style={{ textTransform: 'capitalize' }}>{finish}</span>
+              </div>
+              <div className="summary-row">
+                <span className="summary-key">Window Tint</span>
+                <span className="summary-val">{
+                  windowTint < 0.2 ? 'Clear' :
+                  windowTint < 0.5 ? 'Light' :
+                  windowTint < 0.8 ? 'Dark' : 'Limo'
+                }</span>
               </div>
               <div className="summary-row">
                 <span className="summary-key">PPF Layer</span>
