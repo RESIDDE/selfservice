@@ -247,11 +247,11 @@ export default function LandingPage({ onNavigate }) {
         >
           {/* Free luxury driving videos from Mixkit/Coverr */}
           <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-driving-through-the-city-at-night-5413-large.mp4"
+            src="/my-car-video.mp4"
             type="video/mp4"
           />
           <source
-            src="https://assets.mixkit.co/videos/preview/mixkit-aerial-view-of-a-road-in-the-city-at-night-4381-large.mp4"
+            src="/my-car-video.mp4"
             type="video/mp4"
           />
         </video>
