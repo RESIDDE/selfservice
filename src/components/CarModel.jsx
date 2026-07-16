@@ -17,13 +17,14 @@ const PPF_OVERRIDES = {
   reflectivity: 0.95,
 }
 
-// Positive match: if ANY mesh names match these, ONLY those get colored
-const BODY_KEYWORDS = /^(body|paint|panel|hood|door|roof|bonnet|fender|bumper|trunk|lid|shell|exterior|chassis|pillar|quarter|spoiler|skirt|sill)/i
+// Positive match: if ANY names match these, ONLY those get colored
+const BODY_KEYWORDS = /body|paint|panel|hood|door|roof|bonnet|fender|bumper|trunk|lid|shell|exterior|chassis|pillar|quarter|spoiler|skirt|sill|hull/i
 
-const GLASS_KEYWORDS = /glass|window|windshield/i
+// Use \b to ensure we match 'glass' but not 'G-class' or 'fiberglass'
+const GLASS_KEYWORDS = /\b(glass)\b|window|windshield/i
 
-// Hard exclusions
-const EXCLUDE_KEYWORDS = /wheel|tire|tyre|tread|tireside|tiretread|rim|light|lamp|mirror|chrome|interior|seat|dash|steering|brake|caliper|disc|pad|axle|engine|mechanical|hardware|license|floor|mat|badge|emblem|gasket|wiper|cage/i
+// Hard exclusions (removed 'mat' because it matches 'Material', added 'carpet')
+const EXCLUDE_KEYWORDS = /wheel|tire|tyre|tread|tireside|tiretread|rim|light|lamp|mirror|chrome|interior|seat|dash|steering|brake|caliper|disc|pad|axle|engine|mechanical|hardware|license|floor|carpet|badge|emblem|gasket|wiper|cage|alloy|rubber|hubcap|grille/i
 
 export default function CarModel({ modelUrl, carColor, finish, ppfEnabled, windowTint = 0.2, scale = 1.0, yOffset = -0.05, onLoaded }) {
   const groupRef = useRef()
@@ -46,15 +47,19 @@ export default function CarModel({ modelUrl, carColor, finish, ppfEnabled, windo
       obj.castShadow = true
       obj.receiveShadow = true
 
-      if (GLASS_KEYWORDS.test(obj.name)) {
+      const meshName = obj.name || ''
+      const matName = obj.material?.name || ''
+      const combinedName = `${meshName} ${matName}`
+
+      if (GLASS_KEYWORDS.test(combinedName)) {
         glassMeshes.push(obj)
         return
       }
 
-      if (EXCLUDE_KEYWORDS.test(obj.name)) return
+      if (EXCLUDE_KEYWORDS.test(combinedName)) return
 
       allMeshes.push(obj)
-      if (BODY_KEYWORDS.test(obj.name)) {
+      if (BODY_KEYWORDS.test(combinedName)) {
         bodyMeshes.push(obj)
       }
     })

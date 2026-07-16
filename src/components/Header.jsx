@@ -4,8 +4,8 @@ export default function Header() {
   return (
     <header className="app-header">
       <a className="header-logo" href="/" aria-label="Abuja Cars Home">
-        <div className="logo-icon" aria-hidden="true">
-          <Car size={20} strokeWidth={2} />
+        <div className="logo-icon" style={{ width: '32px', height: '32px', borderRadius: '50%', overflow: 'hidden' }} aria-hidden="true">
+          <img src="/logop.jpg" alt="Abuja Cars Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
         </div>
         <div className="logo-text">
           Abuja Cars
